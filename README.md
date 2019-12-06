@@ -3,4 +3,4 @@
 Un dossier regroupant mes templates pour mes rendus avec R. Il contiendra à terme mon template pour les rendus html, pdf et les diapositives.
 
 
-Pour utiliser le template html, il faut changer le chemin des logo1 et logo2 (lignes 809-810). N'oubliez pas de modifier les chemins des icones à la fin (lignes 912-916).
+Le but est de télécharger le dossier directement le dossier sur votre bureau et si j'ai bien fait mon travail vous devriez pouvoir utiliser mon template en indiquant le chemin.
