@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"$if(lang)$ lang="$lang$" xml:lang="$lang$"$endif$>
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<!-- MathJax -->
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!-- MathJax -->
+
+$if(theme)$
+$else$
+<meta name="viewport" content="width=device-width, initial-scale=1">
+$endif$
+
+$for(author-meta)$
+<meta name="author" content="$author-meta$" />
+$endfor$
+
+$if(date-meta)$
+<meta name="date" content="$date-meta$" />
+$endif$
+
+$if(organisation-meta)$
+<meta name="organisation" content="$organisation-meta$" />
+$endif$
+
+<title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$if(highlightjs)$
+<style type="text/css">code{white-space: pre;}</style>
+$if(theme)$
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+$endif$
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+$endif$
+
+$if(highlighting-css)$
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+$highlighting-css$
+
+$if(code_folding)$
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+$endif$
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+$if(theme)$
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+$endif$
+$endif$
+
+<!--général-->
+<style type="text/css">
+:root {
+    --primary-color: #ad1c72;
+    --secondary-color: #fcddef;
+    --font-color: #424242;
+    --bg-color: #ffffff;
+    --heading-color: #808080;
+}
+[data-theme="dark"] {
+    --primary-color: #9A97F3;
+    --secondary-color: #c4c2ff;
+    --font-color: #e1e1ff;
+    --bg-color: #002240;
+    --heading-color: #D7D5FA;
+}
+body{
+	background: var(--bg-color);
+	color: var(--font-color);
+	font-family: Times New Roman, Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+}
+
+label{color: var(--font-color);}
+
+div.main-container {
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p.icon_class{ text-align: center;}
+p {text-align: justify;}
+
+input[type="search"]{
+	outline: 0px solid var(--primary-color);
+	color: black;
+	border-radius: 5px;
+}
+
+select{color: black;}
+
+<!--bouton télécharger-->
+input.download_R{
+  display: block;
+  color: var(--primary-color);
+  border: 0px solid;
+  background-color: var(--bg-color);
+  text-align:center;
+  vertical-align:middle;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+
+input.download_R:hover{
+	background: radial-gradient(var(--secondary-color) 25%, var(--bg-color) 50%);
+	text-decoration: none;
+}
+input.download_R:focus{
+	outline: 1px solid var(--secondary-color);
+	border-radius: 5px;
+}
+a.download_R:hover{
+	text-decoration: none;
+}
+<!--DT::-->
+.dataTables_paginate{
+	opacity:0.75;
+}
+.dataTables_info{
+	opacity: 0.75;
+}
+.dataTables_info:hover{
+	opacity: 1;
+	transition: .5s;
+}
+.dataTables_paginate:hover{
+	opacity: 1;
+	transition: .5s;
+}
+.dataTables_length select:focus{outline:none;}
+
+.dataTables_filter input:focus{border: 2px solid var(--primary-color);}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {color: var(--font-color)!important;}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled{color:var(--font-color)!important;}
+.dataTables_wrapper .dataTables_paginate .paginate_button{color:var(--font-color)!important;}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+	color: var(--font-color)!important;
+	background: linear-gradient(to top,var(--secondary-color),var(--bg-color));
+	border-color: var(--primary-color);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+	color: var(--font-color)!important;
+	background: linear-gradient(to top,var(--secondary-color),var(--bg-color));
+	border-color: var(--primary-color);
+	opacity:1;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+	background: linear-gradient(to top,var(--secondary-color),var(--bg-color));
+	color: var(--font-color)!important;
+	border-color: var(--primary-color);
+	transition: .5s;
+	opacity:0.6;
+}
+
+option{color: black;}
+
+table.dataTable.no-footer {border-bottom: 1px solid var(--primary-color);}
+table.dataTable thead th{border-bottom: 1px solid var(--bg-color);}
+table.dataTable thead td{
+	border-bottom: 1px solid var(--primary-color);
+	background: linear-gradient( to top, var(--secondary-color), var(--bg-color));
+}
+
+table.dataTable th.sorting{color: var(--primary-color);}
+
+table.dataTable tbody tr{color: black;}
+
+table.dataTable th.dt-right{
+	text-align: center;
+	color: var(--primary-color);
+}
+table.dataTable td.dt-right{text-align: center;}
+
+.btn-group>.btn:first-child {font-size: 1.2em;}
+
+
+</style>
+<!--fin général-->
+
+$if(organisation)$
+<style type="text/css">
+  p.organisation{
+    text-align: center;
+	font-style: italic;
+	color: var(--heading-color);
+  }
+</style>
+$endif$
+
+$if(abstract)$
+<style type="text/css">
+  p.abstract{
+    font-size: 0em;
+  }
+  div.abstract{
+	text-align: justify;
+	font-style: italic;
+	font-size: 0.9em;
+    margin: auto;
+    width: 85%;
+  }
+</style>
+$endif$
+
+$if(theme)$
+<style type="text/css">
+
+h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--primary-color);
+    padding: 5px 0px 0px 0px;
+    margin: 0.67em 0em 0.67em 0em;
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(to top, var(--primary-color) 0%, var(--primary-color) 10%, transparent 10.01%) no-repeat left bottom / 0 100%;
+    transition: background-size .3s;
+}
+h1:hover{background-size: 100% 100%;}
+h1.title {
+    font-size: 38px;
+    font-weight: normal;
+    padding-left: 35px;
+    margin-top: 40px;
+    border-bottom: none;
+    text-align: center;
+}
+h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    /*border-bottom: 1px solid var(--primary-color);*/
+    padding-bottom: 0em;
+    margin: 0.83em 0em 0.83em 0em;
+    display: block;
+     text-decoration: none;
+    background: linear-gradient(to top, var(--primary-color) 0%, var(--primary-color) 10%, transparent 10.01%) no-repeat left bottom / 0 100%;
+    transition: background-size .3s;
+}
+h2:hover {background-size: 100% 100%;}
+h3 {
+	font-size: 1.17em;
+    font-weight: bold;
+    color: var(--primary-color);
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+    /*border-bottom: 1px solidvar(--primary-color);*/
+    padding-bottom: 0.3em;
+    margin: 1em 0em 1em 0em;
+    display: block;
+}
+
+h3.subtitle {font-size: 0em;}
+h4 {
+	font-size: 1.1em;
+    font-weight: bold;
+    color: var(--primary-color);
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+    /*border-bottom: 1px solid var(--primary-color);*/
+    padding-bottom: 0.3em;
+    margin: 1em 0em 1em 0em;
+    display: block;
+}
+h4.author {font-size: 0em;}
+h4.date{font-size: 0em;}
+h4.organisation{font-size: 0em;}
+h5 {font-size: 16px;}
+h6 {font-size: 12px;}
+.table th:not([align]) {
+  text-align: left;
+}
+$if(source_embed)$
+#rmd-source-code {
+  display: none;
+}
+$endif$
+</style>
+$endif$
+
+$for(css)$
+<link rel="stylesheet" href="$css$" $if(html5)$$else$type="text/css" $endif$/>
+$endfor$
+
+
+
+$if(theme)$
+<style type = "text/css">
+
+code {
+  color: inherit;
+  font-style:italic;
+  background-color:var(--bg-color);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+$if(kable-scroll)$
+<style type="text/css">
+.kable-table {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: auto;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-bottom: 20px;
+  max-height: 350px;
+}
+
+.kable-table table {
+  margin-bottom: 0px;
+}
+
+.kable-table table>thead>tr>th {
+  border: none;
+  border-bottom: 2px solid #dddddd;
+}
+
+.kable-table table>thead {
+  background-color: var(--bg-color);
+}
+</style>
+$endif$
+
+$if(navbar)$
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: $body_padding$px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.section h2 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.section h3 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.section h4 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.section h5 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.section h6 {
+  padding-top: $header_padding$px;
+  margin-top: -$header_padding$px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: var(--bg-color);
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $$('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+$endif$
+
+<!-- dark mode -->
+
+<style type="text/css">
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+
+  em {
+    margin-left: 10px;
+    font-size: 1rem;
+  }
+}
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.slider {
+  background-color: var(--secondary-color);
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: var(--bg-color);
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid  var(--secondary-color);
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid  var(--secondary-color);
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.nav-tabs>li.active>a{
+	color: var(--primary-color);
+	border: 1px solid var(--secondary-color);
+	background: linear-gradient(to right, var(--secondary-color), var(--bg-color));
+	}
+.nav-tabs>li.active>a:focus{
+	color: var(--primary-color);
+	border: 1px solid var(--secondary-color);
+	}
+.nav-tabs>li.active>a:hover{
+	color: var(--primary-color); 
+	border: 1px solid var(--secondary-color);
+	}
+
+.nav-tabs>li>a{
+	color: var(--primary-color);
+	border: 1px solid var(--secondary-color);}
+.nav-tabs>li>a:hover{
+	color: var(--primary-color);
+	background-color: var(--secondary-color);
+	transition:.7s;
+	border: 1px solid var(--secondary-color);}
+
+.nav-tabs{border-bottom: 1px solid var(--secondary-color);}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+$if(code_menu)$
+<style type="text/css">
+
+.code-folding-btn {
+	height: 2.5em;
+	width: 3em;
+	opacity: 0.5;
+	margin-bottom: 4px;
+}
+.code-folding-btn:hover {
+	opacity: 1;
+	transition: 0.8s;
+}
+</style>
+$endif$
+
+
+$if(toc_float)$
+
+<style type="text/css">
+
+.header-section-number{
+	color: var(--primary-color);
+}
+.toc_title{
+	color: var(--primary-color);
+	text-align: center;
+	opacity: 0.5;
+	text-decoration: underline;
+	font-size:1.5em;
+}
+.toc_title:hover{opacity: 1;}
+
+#$idprefix$TOC {
+	text-align: left;
+	font-size:1.15em;
+	margin: 70px 0px 20px 0px;
+	opacity: 0.75; <!-- ou 0.5-->
+}
+#$idprefix$TOC:hover{
+	opacity: 1;
+}
+@media (max-width: 768px) {
+#$idprefix$TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+$if(toc_print)$
+$else$
+@media print {
+#$idprefix$TOC {
+  display: none !important;
+}
+}
+$endif$
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+  border: none;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+$if(toc_collapsed)$
+$else$
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+$endif$
+
+.list-group-item{background-color: var(--bg-color);}
+
+.list-group-item.active {
+    z-index: 2;
+	color: var(--primary-color);
+	font-size: 1.1em;
+    font-weight: bold;
+	border-left: 3px solid var(--primary-color);
+	padding-left: 0px;
+    font-family: Helvetica, Arial, sans-serif;
+	background: linear-gradient(to top, #f5f5f5 0%, #f5f5f5 99.9%, transparent 10.01%) no-repeat left bottom / 0 100%;
+    transition: background-size 1s;
+	opacity: 1;
+}
+
+.list-group-item.active:focus{
+	background-size: 100% 100%;
+	background-color: #f5f5f5;
+	border-left: 3px solid var(--primary-color);
+	padding-left: 0px;
+	color: var(--primary-color);
+	transition: background-color 1s;
+	opacity: 1;
+}
+
+.list-group-item.active:hover{
+	background-size: 100% 100%;
+	background-color: #f5f5f5;
+	border-left: 3px solid var(--primary-color);
+	padding-left: 0px;
+	color: var(--primary-color);
+	transition: background-color 2s;
+	opacity: 1;
+}
+</style>
+
+$endif$
+
+$endif$
+
+</head>
+
+<body>
+
+$if(theme)$
+
+<div class="container-fluid main-container">
+
+$if(toc_float)$
+
+
+<div class="row-fluid">
+ <div class="theme-switch-wrapper" style="position: fixed; margin-top: 25px;">
+ <label class="theme-switch" for="checkbox" title="Mode sombre">
+ <input type="checkbox" id="checkbox" />
+ <div class="slider round"></div>
+ </label>
+ </div>
+ <br>
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="$idprefix$TOC" class="tocify">
+<p class="toc_title">Sommaire</p>
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+$endif$
+
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+<br>
+<img src= "./Template_R-master/Ressources/logo1.svg.png"  style="float:left; width: 10%; height: 10%;" alt="logo1"/>
+<img src= "./Template_R-master/Ressources/logo2.svg.png" style="float:right; width: 20%; height: 25%;" alt="logo2"/>
+<br>
+
+$if(theme)$
+<div class="fluid-row" id="$idprefix$header">
+
+$if(code_menu)$
+<div class="btn-group pull-right" style="position: absolute; left: 87%; margin-top: 42px;">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Options</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+$if(code_folding)$
+<li><a id="rmd-show-all-code" href="#">Montrer tout le Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Cacher tout le Code</a></li>
+$if(source_embed)$
+<li role="separator" class="divider"></li>
+$endif$
+$endif$
+$if(source_embed)$
+<li><a id="rmd-download-source" href="#">Télécharger le .Rmd</a></li>
+$endif$
+</ul>
+</div>
+
+$endif$
+
+$endif$
+
+$if(title)$
+<h1 class="title toc-ignore" style="display: table-cell;">$title$</h1><!--margin:0px;display: flow-root;-->
+$if(subtitle)$
+<h3 class="subtitle" style="margin-top: 40px;">$subtitle$</h3>
+$endif$
+$for(author)$
+$if(author.name)$
+<h4 class="author">$author.name$</h4>
+$if(author.affiliation)$
+<address class="author_afil">
+$author.affiliation$<br>$endif$
+$if(author.email)$
+<a class="author_email" href="mailto:#">$author.email$</a>
+</address>
+$endif$
+$else$
+<h4 class="author">$author$</h4>
+$endif$
+$endfor$
+$if(date)$
+<h4 class="date">$date$</h4>
+$endif$
+$if(organisation)$
+<h4 class="organisation">$organisation$</h4>
+$endif$
+$if(abstract)$
+<div class="abstract">
+<p class="abstract">Abstract</p>
+$abstract$
+</div>
+$endif$
+$endif$
+
+$if(theme)$
+</div>
+$endif$
+
+$if(toc_float)$
+$else$
+$if(toc)$
+<div id="$idprefix$TOC">
+$toc$
+
+</div>
+$endif$
+$endif$
+
+$body$
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+<!--footer-->
+<style type="text/css">
+div.footer{
+ display: block;
+ text-decoration: none;
+ background: linear-gradient(to bottom, var(--primary-color) 0%, var(--primary-color) 2%, transparent 2.01%) no-repeat left bottom / 0 100%;
+ transition: background-size .3s;
+}
+div.footer:hover{background-size: 100% 100%;}
+</style>
+
+<div class="footer">
+<p style="text-align: center; padding-top: 25px;">
+ Réalisé par $author$ le $date$.
+</p>
+<p class="organisation">
+$organisation$
+</p>
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Add font awesome icons -->
+<p class="icon_class">
+    <a href="https://twitter.com/rstudio?lang=fr" target=_blank class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/timoth%C3%A9-beuchon-088a25158/" target=_blank class="fa fa-linkedin"></a>
+    <a href="https://www.facebook.com/tim.beuch" target=_blank class="fa fa-facebook"></a>
+	<a href="https://github.com/TimBeuch?tab=repositories" target=_blank class="fa fa-github"></a>
+	<a href="mailto:?to=beuchon.timothe@gmail.com" class="fa fa-envelope-o"></a>
+</p>
+</div>
+$if(theme)$
+
+$if(toc_float)$
+</div>
+</div>
+$endif$
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+$if(kable-scroll)$
+$$(document).ready(function () {
+  $$('.knitsql-table').addClass('kable-table');
+  var container = $$('.kable-table');
+  container.each(function() {
+
+    // move the caption out of the table
+    var table = $$(this).children('table');
+    var caption = table.children('caption').detach();
+    caption.insertBefore($$(this)).css('display', 'inherit');
+  });
+});
+$endif$
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$$(document).ready(function () {
+  window.buildTabsets("$idprefix$TOC");
+});
+
+$$(document).ready(function () {
+  $$('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $$(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+$endif$
+
+<!-- code folding -->
+$if(code_menu)$
+<script>
+$$(document).ready(function () {
+$if(source_embed)$
+  window.initializeSourceEmbed("$source_embed$");
+$endif$
+$if(code_folding)$
+  window.initializeCodeFolding("$code_folding$" === "show");
+$endif$
+});
+</script>
+$endif$
+
+$if(toc_float)$
+<script>
+$$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $$('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "$toc_selectors$",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+$if(toc_collapsed)$
+    options.showAndHide = true;
+$else$
+    options.showAndHide = false;
+$endif$
+$if(toc_smooth_scroll)$
+    options.smoothScroll = true;
+$else$
+    options.smoothScroll = false;
+$endif$
+
+    // tocify
+    var toc = $$("#$idprefix$TOC").tocify(options).data("toc-tocify");
+});
+</script>
+$endif$
+
+$if(mathjax-url)$
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "$mathjax-url$";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+$endif$
+
+<script>
+const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }    
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
+</script>
+
+</body>
+</html>
